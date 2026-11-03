@@ -28,7 +28,7 @@ async function doubanApiGet(url) {
 
     return response;
   } catch (error) {
-    log("error", "[DOUBAN] GET API error:", {
+    log("error", "[system] [douban] GET API error:", {
       message: error.message,
       name: error.name,
       stack: error.stack,
@@ -55,7 +55,7 @@ async function doubanApiPost(url, data={}) {
 
     return response;
   } catch (error) {
-    log("error", "[DOUBAN] POST API error:", {
+    log("error", "[system] [douban] POST API error:", {
       message: error.message,
       name: error.name,
       stack: error.stack,
@@ -68,6 +68,13 @@ async function doubanApiPost(url, data={}) {
 export async function searchDoubanTitles(keyword, count = 20) {
   const url = `/search?q=${keyword}&start=0&count=${count}&type=movie`;
   return await doubanApiGet(url);
+}
+
+// 使用 豆瓣 公开 API 查询片名
+export async function searchDoubanTitlesByPublic(keyword, count = 20) {
+  const url = `/movie/search`;
+  const data = { q: keyword, start: 0, count: count };
+  return await doubanApiPost(url, data);
 }
 
 // 使用 豆瓣 API 查询详情
